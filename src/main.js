@@ -1,5 +1,6 @@
 // @flow
 import Discord from 'discord.js';
+import createLinksHighlights from './operations/create_links_highlights';
 import config from './config';
 
 config.setup();
@@ -7,8 +8,7 @@ const client = new Discord.Client();
 
 
 client.on('ready', () => {
-  console.log('ready!!ZZ')
-  console.log(client.users.get('tenshi'))
+  createLinksHighlights(client).then()
 });
 
 client.on('message', msg => {
