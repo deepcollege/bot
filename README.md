@@ -15,12 +15,26 @@ or
 $ npm install
 ```
 
+To start
+```angular2html
+$ yarn start
+or
+$ npm start
+```
+
 To build
 
 ```bash
 $ yarn build
 or 
 $ npm run build
+```
+
+To lint
+```angular2html
+$ yarn lint
+or 
+$ npm run lint
 ```
 
 To fix formats

@@ -1,6 +1,8 @@
-// Silence is golden...
-import './config';
+// @flow
 import Discord from 'discord.js';
+import config from './config';
+
+config.setup();
 const client = new Discord.Client();
 
 client.on('ready', () => {
