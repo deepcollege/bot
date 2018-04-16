@@ -1,0 +1,19 @@
+{
+  "presets": [
+    ["env", {
+      "targets": {
+        "node": "6.10"
+      }
+    }]
+  ],
+  "plugins": [
+    ["transform-class-properties", { "spec": true }],
+    "transform-es2015-block-scoping",
+    "transform-es2015-parameters",
+    "transform-es2015-arrow-functions"
+  ],
+  "ignore": [
+    "core/**/*.json",
+    "core/**/*.password"
+  ]
+}

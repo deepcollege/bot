@@ -1,0 +1,28 @@
+{
+  "name": "friendlybot",
+  "version": "1.0.0",
+  "description": "some bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx gulp build"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/preset-env": "^7.0.0-beta.44",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
+    "babel-plugin-transform-es2015-block-scoping": "^6.26.0",
+    "babel-plugin-transform-es2015-parameters": "^6.24.1",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
+    "gulp-clean": "^0.4.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "ramda": "^0.25.0",
+    "run-sequence": "^2.2.1"
+  }
+}

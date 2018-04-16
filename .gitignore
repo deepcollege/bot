@@ -1,0 +1,42 @@
+# Various things
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.swp
+pids
+logs
+results
+tmp
+
+#Build
+public/css/main.css
+
+# API keys and secrets
+.env
+
+
+# Dependency directory
+node_modules
+
+# dist
+dist
+
+# Editors
+.idea
+*.iml
+
+# Miscs
+.DS_Store
+Thumbs.db
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# sqlite
+*.sqlite
