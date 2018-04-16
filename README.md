@@ -34,12 +34,13 @@ DISCORD_PRIV_KEY=<key>
 
 #### 2. Initiate
 
-To start
-```angular2html
-$ yarn start
-or
-$ npm start
-```
+To start (for dev)
+
+```$ yarn dev```
+
+To start (for prod)
+
+```$ yarn start```
 
 To build
 
