@@ -5,8 +5,10 @@ import config from './config';
 config.setup();
 const client = new Discord.Client();
 
+
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+  console.log('ready!!ZZ')
+  console.log(client.users.get('tenshi'))
 });
 
 client.on('message', msg => {
@@ -15,4 +17,6 @@ client.on('message', msg => {
   }
 });
 
+
 client.login(process.env.DISCORD_PRIV_KEY);
+
