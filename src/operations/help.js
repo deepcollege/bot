@@ -1,5 +1,9 @@
 // @flow
-const handler = async ({ message }, done) => {
+const handler = async ({ message }) => {
   message.channel.send('fuck you');
-  done();
+  Promise.resolve()
+};
+
+export default {
+  handler,
 };

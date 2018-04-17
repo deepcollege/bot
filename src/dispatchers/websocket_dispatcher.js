@@ -5,11 +5,10 @@ import config from '../config';
 
 /**
  * Discord Websocket dispatcher
- * @param publisher
+ * @param queue
  */
-const init = ({ publisher }) => {
+const init = ({ queue }) => {
   // Setup environment variables
-  config.setup();
 
   const client = new Discord.Client();
 
@@ -28,14 +27,24 @@ const init = ({ publisher }) => {
   };
 
   const constructPayload = ({ inputs, message }) => {
-    const _startObject = {}
-    return R.reduce((acc, input) => {
-      if (input === 'message') {
-        const xLens = R.lensProp('message')
-        return R.set(xLens, message, acc)
-      }
-      console.log('acc', acc, 'key', value)
-    }, _startObject, inputs)
+    const _startObject = {};
+    return R.reduce(
+      (acc, input) => {
+        if (input === 'message') {
+          const xLens = R.lensProp('message');
+          return R.set(xLens, message, acc);
+        }
+        console.log('acc', acc, 'key', value);
+      },
+      _startObject,
+      inputs,
+    );
+  };
+
+  const constructEvent = ({ func, payload }) => {
+    // TODO: Should we check "fileName.method" pattern?
+    const [action, handler] = R.split('.', func);
+    return { action, handler, payload };
   };
 
   client.on('message', message => {
@@ -52,14 +61,22 @@ const init = ({ publisher }) => {
 
       // TODO: At the moment it's only doing AND; we must handle OR and AND conditions
       if (R.all(R.equals(true), results)) {
-        console.log('checking payload ', constructPayload({ inputs, message }))
+        const event = constructEvent({
+          func: op.function,
+          payload: constructPayload({ inputs, message }),
+        });
+
+        // If conditions are all good, publishes the event
+        queue.push(event, () => {
+          console.log('pushed');
+        });
       }
     }, operations);
   });
 
   client.login(process.env.DISCORD_PRIV_KEY);
-}
+};
 
 export default {
-  init
-}
+  init,
+};
