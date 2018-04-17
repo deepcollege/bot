@@ -1,0 +1,8 @@
+version: 1
+operations:
+  - name: help_webhook_trigger
+    function: help.handler
+    type: websocket
+    conditions:
+      - contentEquals: "!help"
+    inputs: ["message"]

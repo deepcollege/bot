@@ -1,7 +1,7 @@
 // @flow
 import moment from 'moment';
 
-const handler = async client => {
+const handler = async ({ client }) => {
   moment.locale('en-AU');
   const yesterday = moment()
     .subtract(1, 'day')

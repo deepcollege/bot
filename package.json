@@ -32,7 +32,8 @@
     "gulp-sourcemaps": "^2.6.4",
     "moment": "^2.22.1",
     "ramda": "^0.25.0",
-    "run-sequence": "^2.2.1"
+    "run-sequence": "^2.2.1",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "flow-bin": "^0.69.0"
