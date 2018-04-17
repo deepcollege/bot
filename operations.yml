@@ -6,3 +6,9 @@ operations:
     conditions:
       - contentEquals: "!help"
     inputs: ["message"]
+  - name: get_year_progress_on_trigger
+    function: progress.handler
+    type: websocket
+    conditions:
+      - contentEquals: "!progress"
+    inputs: ["message"]
