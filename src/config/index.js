@@ -6,8 +6,8 @@ import YAML from 'yamljs';
 
 const loadOperations = (fileName = 'operations.yml') => {
   const yamlPath = path.join(__dirname, `/../../${fileName}`);
-  return YAML.load(yamlPath)
-}
+  return YAML.load(yamlPath);
+};
 
 /**
  * Queries operations yaml
@@ -15,14 +15,9 @@ const loadOperations = (fileName = 'operations.yml') => {
  * @param type
  */
 const queryOperations = ({ type }) => {
-  const ops = loadOperations().operations
-  return R.filter(
-    R.compose(
-      R.equals(type),
-      R.prop('type')
-    )
-  )(ops)
-}
+  const ops = loadOperations().operations;
+  return R.filter(R.compose(R.equals(type), R.prop('type')))(ops);
+};
 
 const setup = () => {
   dotenv.config({
