@@ -12,6 +12,7 @@ class LocalQueue {
       console.info('Finished all the existing tasks');
     };
   }
+
   /**
    * Fix any type!
    * @param task

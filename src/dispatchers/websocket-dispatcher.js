@@ -13,7 +13,6 @@ const init = ({ queue }) => {
   const client = new Discord.Client();
 
   client.on('ready', () => {
-    // createLinksHighlights(client).then();
     console.log('I am ready!');
   });
 
@@ -34,7 +33,9 @@ const init = ({ queue }) => {
           const xLens = R.lensProp('message');
           return R.set(xLens, message, acc);
         }
-        console.log('acc', acc, 'key', value);
+        // If input type is not detected, it will skip
+        console.warn(`Skipping payload construction for input ${input}`);
+        return acc;
       },
       _startObject,
       inputs,
@@ -67,9 +68,7 @@ const init = ({ queue }) => {
         });
 
         // If conditions are all good, publishes the event
-        queue.push(event, () => {
-          console.log('pushed');
-        });
+        queue.push(event);
       }
     }, operations);
   });

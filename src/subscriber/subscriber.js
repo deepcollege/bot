@@ -1,5 +1,6 @@
-import * as R from 'ramda';
+// @flow
 import path from 'path';
+import * as R from 'ramda';
 import requireAll from 'require-all';
 
 const subscribe = (event, done) => {
