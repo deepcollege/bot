@@ -5,34 +5,48 @@
 
 > Hi.
 
-### Instructions
-
-#### 1. Setup your development environment
+### Instruction
 
 
-1. Install packages
-```angular2html
+##### 1. Set up Discord bot and generate a token
+
+https://anidiots.guide/getting-started/getting-started-long-version
+
+Following along above link will give you
+
+- App registered to be bound to a bot aka our Nodejs discord bot
+- A token that you need to place into `.env` file
+
+#### 2. Setup your development environment
+
+
+Install packages
+```bash
 $ yarn
 or
 $ npm install
 ```
 
-2. Create .env
+Prepare .env
 
-```angular2html
-$ pwd  # ensure you are in friendlybot folder
-$ cp .env.example .env
-$ # add your discord bot secret key into .env
+```bash
+$ pwd                     # ensure you are in friendlybot folder
+$ cp .env.example .env    # Copied existing .env template
+# add your discord bot secret key into .env.
+# You must have it if you've followed `1. Set up Discord bot and generate a token` step
+# Then place these variables into .env file
 
 .env file may look like
 ---
+MESSAGE_QUEUE=memory
 DISCORD_PRIV_KEY=<key>
 ---
+
 # These keys will be automatically picked up by src/config/index.js and assign
 # it to process.env
 ```
 
-#### 2. Initiate
+#### 3. Initiate
 
 To start (for dev)
 
@@ -50,17 +64,17 @@ or
 $ npm run build
 ```
 
-#### 3. Code quality
+#### 4. Code quality
 
 To lint
-```angular2html
+```bash
 $ yarn lint
 or 
 $ npm run lint
 ```
 
 To fix formats
-```angular2html
+```bash
 $ yarn fix
 or 
 $ npm run fix
