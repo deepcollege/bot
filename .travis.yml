@@ -6,7 +6,7 @@ before_install:
   - docker --version
 
 install:
-  - docker build -t ${DOCKER_REPOSITORY}:${TRAVIS_COMMIT} -f .docker/Dockerfile .
+  - docker build -t friendlybot:latest -f .docker/Dockerfile .
 
 script:
-  - docker run ${DOCKER_REPOSITORY}:${TRAVIS_COMMIT} yarn lint
+  - docker run -v .:/home/node/app friendlybot:latest yarn lint
