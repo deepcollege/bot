@@ -4,7 +4,7 @@
   "description": "some bot",
   "main": "index.js",
   "scripts": {
-    "start": "yarn build && cd dist && nodemon main.js",
+    "start": "yarn build && cd dist && npx nodemon main.js",
     "dev": "npx nodemon -L --watch src --watch .env --watch gulpfile.babel.js --exec \"npx gulp build && node\" ./dist/main.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx gulp build",
