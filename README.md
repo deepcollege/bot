@@ -89,3 +89,11 @@ $ yarn fix
 or 
 $ npm run fix
 ```
+
+### Useful links
+
+- `ARCHITECTURE.md` located under `docs/` will give you big picture
+understanding about friendlybot architecture
+- `DEPLOYMENT_TO_HEROKU.md` can be used to deploy the bot on to Heroku
+at the moment we intend to use Heroku for production bot only
+
