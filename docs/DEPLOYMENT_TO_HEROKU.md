@@ -33,6 +33,11 @@ Heroku dashboard.
 2. Settings tap
 3. Set variables
 
+```bash
+# 1. MESSAGE_QUEUE=memory
+# 2. DISCORD_PRIV_KEY=<KEY>
+```
+
 Once it's done, you can now deploy `friendlybot`
 
 ```bash
