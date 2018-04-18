@@ -48,6 +48,8 @@ DISCORD_PRIV_KEY=<key>
 
 #### 3. Initiate
 
+##### a) bare-metal node approach
+
 To start (for dev)
 
 ```$ yarn dev```
@@ -62,6 +64,14 @@ To build
 $ yarn build
 or 
 $ npm run build
+```
+
+##### b) docker-compose (preferred method)
+
+```bash
+# Ensure you have docker-compose and docker installed
+$ docker-compose -f compose.dev.yml build
+$ docker-compose -f compose.dev.yml up
 ```
 
 #### 4. Code quality
