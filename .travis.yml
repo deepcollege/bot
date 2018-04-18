@@ -9,4 +9,4 @@ install:
   - docker build -t friendlybot:latest -f .docker/Dockerfile .
 
 script:
-  - docker run -v .:/home/node/app friendlybot:latest yarn lint
+  - docker run -v $(pwd):/home/node/app friendlybot:latest yarn lint
