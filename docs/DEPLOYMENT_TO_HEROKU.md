@@ -44,3 +44,10 @@ Check app status (e.g. logs)
 ```bash
 $ heroku logs
 ```
+
+
+#### Tips
+
+Keep your free Heroku app awake
+
+`https://quickleft.com/blog/6-easy-ways-to-prevent-your-heroku-node-app-from-sleeping/`
