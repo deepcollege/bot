@@ -15,8 +15,10 @@
     "rules": {
       "linebreak-style": 0
     },
-    "plugins": [
-      "jest"
+    "globals": [
+      "it",
+      "describe",
+      "expect"
     ]
   },
   "jest": {
@@ -42,7 +44,6 @@
     "babel-register": "^6.26.0",
     "discord.js": "^11.3.2",
     "dotenv": "^5.0.1",
-    "eslint-plugin-jest": "^21.15.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
     "gulp-clean": "^0.4.0",

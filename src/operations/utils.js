@@ -23,7 +23,7 @@ const getPercentage = () => {
   return { percentage, year };
 };
 
-module.exports = {
+export default {
   urlify,
   getPercentage,
 };

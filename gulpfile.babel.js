@@ -17,7 +17,7 @@ const paths = {
 // Babel JS files
 gulp.task('babel', () => {
   return gulp
-    .src('src/**/*.js')
+    .src(['src/**/*.js', '!src/**/*.test.js'])
     .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(sourcemaps.write('.', { sourceRoot: paths.sourceRoot }))
