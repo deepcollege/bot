@@ -5,6 +5,8 @@
 
 > Hi.
 
+[![Build Status](https://travis-ci.com/JasonShin/friendlybot.svg?token=fyXsjBhWmxzn9Pe4yfJp&branch=master)
+
 ### Instruction
 
 
@@ -72,6 +74,17 @@ $ npm run build
 # Ensure you have docker-compose and docker installed
 $ docker-compose -f compose.dev.yml build
 $ docker-compose -f compose.dev.yml up
+```
+
+#### 4. Tests
+
+```bash
+ docker run \
+  --rm \
+  -v /c/Users/Shin/Desktop/deepcollege/friendlybot:/home/node/app \
+  -v /home/node/app/node_modules \
+  friendlybot:latest \
+  yarn test
 ```
 
 #### 4. Code quality

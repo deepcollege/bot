@@ -24,4 +24,5 @@ const setup = (customConfig = {}) => dotenv.config(customConfig);
 export default {
   setup,
   queryOperations,
+  loadOperations
 };
