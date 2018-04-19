@@ -1,1 +1,5 @@
-// Write test
+import config from './index'
+
+test('', () => {
+
+});

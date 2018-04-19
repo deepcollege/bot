@@ -19,11 +19,7 @@ const queryOperations = ({ type }) => {
   return R.filter(R.compose(R.equals(type), R.prop('type')))(ops);
 };
 
-const setup = () => {
-  dotenv.config({
-    path: path.join(__dirname, '/../../.env'),
-  });
-};
+const setup = (customConfig = {}) => dotenv.config(customConfig);
 
 export default {
   setup,
