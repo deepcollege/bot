@@ -5,7 +5,7 @@
 
 > Hi.
 
-[![Build Status](https://travis-ci.com/JasonShin/friendlybot.svg?token=fyXsjBhWmxzn9Pe4yfJp&branch=master)
+![Build Status](https://travis-ci.com/JasonShin/friendlybot.svg?token=fyXsjBhWmxzn9Pe4yfJp&branch=master)
 
 ### Instruction
 
