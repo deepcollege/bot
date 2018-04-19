@@ -1,8 +1,8 @@
 // @flow
-const get_percentage = require('./utils').get_percentage;
+const getPercentage = require('./utils').getPercentage;
 
 const handler = async ({ message }) => {
-  var results = get_percentage();
+  const results = getPercentage();
   message.channel.send(`${results.percentage}% of ${results.year}`);
   Promise.resolve();
 };

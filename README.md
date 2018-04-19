@@ -81,6 +81,8 @@ To lint
 $ yarn lint
 or 
 $ npm run lint
+or
+docker run -v <path to source code>:/home/node/app friendlybot:latest yarn lint
 ```
 
 To fix formats
@@ -88,6 +90,8 @@ To fix formats
 $ yarn fix
 or 
 $ npm run fix
+or
+docker run -v <path to source code>:/home/node/app friendlybot:latest yarn fix
 ```
 
 ### Useful links

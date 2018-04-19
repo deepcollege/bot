@@ -1,23 +1,29 @@
 import moment from 'moment';
 
-// takes message content as arugment and returns array of links in it.
+/**
+ * Takes message content as arugment and returns array of links in it.
+ * @param text
+ */
 const urlify = text => text.match(/(https?:\/\/[^\s]+)/g);
 
-// takes none and returns percentage
-const get_percentage = () => {
-  var year = moment().year();
-  var now_utc = moment()
+/**
+ * Takes none and returns percentage
+ * @returns {{percentage: number, year: (moment.Moment | number)}}
+ */
+const getPercentage = () => {
+  const year = moment().year();
+  const nowUTC = moment()
     .startOf(`${year}`)
     .utc();
-  var jan1This_utc = moment(`${year}-01-01 00:00:00.000`).utc();
-  var jan1Next_utc = moment(`${year + 1}-01-01 00:00:00.000`).utc();
-  var percentage = Math.round(
-    (now_utc - jan1This_utc) / (jan1Next_utc - jan1This_utc) * 100,
+  const jan1ThisUTC = moment(`${year}-01-01 00:00:00.000`).utc();
+  const jan1NextUTS = moment(`${year + 1}-01-01 00:00:00.000`).utc();
+  const percentage = Math.round(
+    (nowUTC - jan1ThisUTC) / (jan1NextUTS - jan1ThisUTC) * 100,
   );
   return { percentage, year };
 };
 
 module.exports = {
   urlify,
-  get_percentage,
+  getPercentage,
 };

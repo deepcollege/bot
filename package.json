@@ -11,12 +11,18 @@
     "lint": "yarn fix && npx xo --prettier src/**/*.js",
     "fix": "npx prettier --write \"./**/*.js\""
   },
+  "xo": {
+    "rules": {
+      "linebreak-style": 0
+    }
+  },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@babel/preset-env": "^7.0.0-beta.44",
     "@babel/register": "^7.0.0-beta.44",
     "async": "^2.6.0",
+    "babel-eslint": "^8.2.3",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
     "babel-plugin-transform-es2015-block-scoping": "^6.26.0",
