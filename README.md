@@ -5,7 +5,7 @@
 
 > Hi.
 
-![Build Status](https://travis-ci.org/JasonShin/friendlybot.svg?branch=master)
+[![Build Status](https://travis-ci.org/JasonShin/friendlybot.svg?branch=master)](https://travis-ci.org/JasonShin/friendlybot)
 [![Discord](https://img.shields.io/discord/102860784329052160.svg)](https://discord.gg/MAMPnmm)
 
 ### Instruction
