@@ -35,10 +35,11 @@ const init = ({ queue }) => {
         } else if (input === 'client') {
           const xLens = R.lensProp('client');
           return R.set(xLens, client, acc);
+        } else {
+          // If input type is not detected, it will skip
+          console.warn(`Skipping payload construction for input ${input}`);
+          return acc;
         }
-        // If input type is not detected, it will skip
-        console.warn(`Skipping payload construction for input ${input}`);
-        return acc;
       },
       _startObject,
       inputs,
