@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "yarn build && cd dist && npx nodemon main.js",
-    "dev": "npx nodemon -L --watch src --watch .env --watch gulpfile.babel.js --exec \"npx gulp build && node\" ./dist/main.js",
+    "dev": "npx nodemon -L --watch src --watch .env --watch operations.yml --watch gulpfile.babel.js --exec \"npx gulp build && node\" ./dist/main.js",
     "test": "npx jest",
+    "test:watch": "npx jest --watch",
     "build": "npx gulp build",
     "lint": "yarn fix && npx xo --prettier src/**/*.js",
     "fix": "npx prettier --write \"./**/*.js\""

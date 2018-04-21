@@ -96,7 +96,7 @@ $ yarn lint
 or 
 $ npm run lint
 or
-docker run -v <path to source code>:/home/node/app friendlybot:latest yarn lint
+docker run -v <path to source code>:/home/node/app -v /home/node/app/node_modules friendlybot:latest yarn lint
 ```
 
 To fix formats
@@ -105,7 +105,7 @@ $ yarn fix
 or 
 $ npm run fix
 or
-docker run -v <path to source code>:/home/node/app friendlybot:latest yarn fix
+docker run -v <path to source code>:/home/node/app -v /home/node/app/node_modules friendlybot:latest yarn fix
 ```
 
 ### Useful links
