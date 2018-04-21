@@ -25,13 +25,16 @@ const init = ({ queue }) => {
     }
   };
 
-  const constructPayload = ({ inputs, message }) => {
+  const constructPayload = ({ inputs, message, client }) => {
     const _startObject = {};
     return R.reduce(
       (acc, input) => {
         if (input === 'message') {
           const xLens = R.lensProp('message');
           return R.set(xLens, message, acc);
+        } else if (input === 'client') {
+          const xLens = R.lensProp('client');
+          return R.set(xLens, client, acc);
         }
         // If input type is not detected, it will skip
         console.warn(`Skipping payload construction for input ${input}`);
@@ -64,7 +67,11 @@ const init = ({ queue }) => {
       if (R.all(R.equals(true), results)) {
         const event = constructEvent({
           func: op.function,
-          payload: constructPayload({ inputs, message }),
+          payload: constructPayload({
+            inputs,
+            message,
+            client,
+          }),
         });
 
         // If conditions are all good, publishes the event

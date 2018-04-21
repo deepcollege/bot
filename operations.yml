@@ -12,3 +12,9 @@ operations:
     conditions:
       - contentEquals: "!progress"
     inputs: ["message"]
+  - name: give_me_news
+    function: give-me-news.handler
+    type: websocket
+    conditions:
+      - contentEquals: "!newsPlz"
+    inputs: ["message"]
