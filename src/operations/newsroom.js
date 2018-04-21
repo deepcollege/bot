@@ -1,4 +1,12 @@
 // @flow
+/**
+ * Notes: Each news object should be
+ * {
+ *   title
+ *   createdAt
+ *   url
+ * }
+ */
 import * as R from 'ramda';
 import moment from 'moment';
 import puppeteer from 'puppeteer';
@@ -44,7 +52,7 @@ const getHitsFromMedium = async ({ dateSince, baseUrl }) => {
     () => page.evaluate(() => document.querySelector('body > pre').textContent),
   )();
   const postLens = R.lensPath(['payload', 'references', 'Post']);
-  const posts = R.compose(
+  return R.compose(
     // Pick only values out because we've iterated over objects
     R.filter(x => moment(x.createdAt).isAfter(dateSince)),
     R.values,
@@ -57,22 +65,28 @@ const getHitsFromMedium = async ({ dateSince, baseUrl }) => {
     }),
     x => R.view(postLens, x),
   )(content);
-  console.log(posts);
 };
 
-const getHitsFromChannel = async ({ dateSince, targetChannel }) => {
+const getHitsFromChannel = async ({ dateSince, srcChannel }) => {
   return R.composeP(
     R.flatten,
     // Extract urls from contents
     messageCollection =>
-      messageCollection.map(msg => utils.urlify(msg.content)),
+      messageCollection.map(msg => {
+        return {
+          createdAt: msg.createdAt,
+          url: utils.urlify(msg.content), // TODO: Does it return multiple?
+        };
+      }),
     // Get message after yesterday
     messageCollection =>
       messageCollection.filter(msg => moment(msg.createdAt).isAfter(dateSince)),
     // Get message reservoir
     channel => channel.fetchMessages({ limit: MAX_MESSAGE_FETCH_CHANNEL }),
-  )(targetChannel);
+  )(srcChannel);
 };
+
+// Const constructNews = () => {};
 
 const handler = async ({ message }) => {
   moment.locale('en-AU');
@@ -81,20 +95,28 @@ const handler = async ({ message }) => {
     .format('YYYY-MM-DD');
 
   // Place to post news back
-  // const newsroomChannel = message.client.channels.find('name', 'newsroom');
+  const newsroomChannel = message.client.channels.find('name', 'newsroom');
   // Place to find news
   const resourcesChannel = message.client.channels.find('name', 'resources');
 
-  const messageCollection = await getHitsFromChannel({
+  const resourcesCollection = await getHitsFromChannel({
     dateSince: yesterday,
-    targetChannel: resourcesChannel,
+    srcChannel: resourcesChannel,
   });
-  console.log(messageCollection);
-  await getHitsFromMedium({
+  const twdMLHits = await getHitsFromMedium({
     baseUrl: TWD_MACHINE_LEARNING,
     dateSince: yesterday,
   });
-  await getHitsFromMedium({ baseUrl: TWD_DATA_SCIENCE, dateSince: yesterday });
+  const twdDSHits = await getHitsFromMedium({
+    baseUrl: TWD_DATA_SCIENCE,
+    dateSince: yesterday,
+  });
+  const newsCollection = {
+    deepLearning: twdMLHits,
+    dataScience: twdDSHits,
+    resources: resourcesCollection,
+  };
+  await newsroomChannel.send(JSON.stringify(newsCollection));
 };
 
 export default {
