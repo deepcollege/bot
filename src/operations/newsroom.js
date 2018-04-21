@@ -5,10 +5,21 @@ import puppeteer from 'puppeteer';
 import utils from './utils';
 
 const MAX_MESSAGE_FETCH_CHANNEL = 100;
+const TWD_MACHINE_LEARNING =
+  'https://towardsdatascience.com/machine-learning/home';
+const TWD_DATA_SCIENCE = 'https://towardsdatascience.com/data-science/home';
 
-const getHitsFromTowardsDataScience = async () => {
+const getHitsFromMedium = async ({ dateSince, baseUrl }) => {
+  if (!baseUrl || !baseUrl) {
+    throw new Error(
+      'Invalid arguments! baseUrl:',
+      baseUrl,
+      'dateSince:',
+      dateSince,
+    );
+  }
   /**
-   * TowardsDataScience JSON datastructure
+   * Medium JSON datastructure
    * {
    *   success
    *   payload {
@@ -26,9 +37,7 @@ const getHitsFromTowardsDataScience = async () => {
    */
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
-  await page.goto(
-    'https://towardsdatascience.com/machine-learning/home?format=json',
-  );
+  await page.goto(`${baseUrl}?format=json`);
   const content = await R.composeP(
     x => JSON.parse(x),
     x => R.replace(/^]\)}while\(1\);<\/x>/g, '', x),
@@ -37,11 +46,13 @@ const getHitsFromTowardsDataScience = async () => {
   const postLens = R.lensPath(['payload', 'references', 'Post']);
   const posts = R.compose(
     // Pick only values out because we've iterated over objects
+    R.filter(x => moment(x.createdAt).isAfter(dateSince)),
     R.values,
     R.map(x => {
       return {
         title: x.title,
         url: `https://towardsdatascience.com/${x.uniqueSlug}`,
+        createdAt: x.createdAt,
       };
     }),
     x => R.view(postLens, x),
@@ -70,18 +81,20 @@ const handler = async ({ message }) => {
     .format('YYYY-MM-DD');
 
   // Place to post news back
-  const newsroomChannel = message.client.channels.find('name', 'newsroom');
-  console.log('checking news ', newsroomChannel);
+  // const newsroomChannel = message.client.channels.find('name', 'newsroom');
   // Place to find news
   const resourcesChannel = message.client.channels.find('name', 'resources');
-  console.log('resource channel ', resourcesChannel);
 
   const messageCollection = await getHitsFromChannel({
     dateSince: yesterday,
     targetChannel: resourcesChannel,
   });
   console.log(messageCollection);
-  await getHitsFromTowardsDataScience();
+  await getHitsFromMedium({
+    baseUrl: TWD_MACHINE_LEARNING,
+    dateSince: yesterday,
+  });
+  await getHitsFromMedium({ baseUrl: TWD_DATA_SCIENCE, dateSince: yesterday });
 };
 
 export default {
