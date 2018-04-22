@@ -29,3 +29,4 @@ websocketDispatcher.init({ queue, client });
 
 // Auth
 client.login(process.env.DISCORD_PRIV_KEY);
+
