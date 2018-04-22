@@ -25,6 +25,12 @@ $ heroku create <app_name, globally unique>
 $ git remote -v    # check a remote is created
 ```
 
+If you want to base your Heroku app based on a buildpack
+
+```bash
+$ heroku create deepcollege-bot-staging --buildpack <github url | shorthand official image>
+```
+
 
 Set environment variables; easiest way is to set it via 
 Heroku dashboard. 

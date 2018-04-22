@@ -1,4 +1,5 @@
 // @flow
+import Discord from 'discord.js';
 import pubsub from './pubsub';
 import config from './config';
 import subscriber from './subscriber/subscriber';
@@ -9,6 +10,20 @@ config.setup();
 
 // Create a pubsub client
 const queue = pubsub.createPubsub(subscriber.subscribe);
+// Setup environment variables
+
+const client = new Discord.Client();
+
+client.on('ready', () => {
+  const newAvatarURL = config.loadOperations().avatar
+  if (client.user.avatarURL !== newAvatarURL) {
+    client.user.setAvatar(newAvatarURL);
+  }
+  console.log('I am ready!');
+});
 
 // Initialises websocket dispatcher, which uses discord.js
-websocketDispatcher.init({ queue });
+websocketDispatcher.init({ queue, client });
+
+// Auth
+client.login(process.env.DISCORD_PRIV_KEY);

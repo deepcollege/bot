@@ -18,6 +18,7 @@ const MAX_MESSAGE_FETCH_CHANNEL = 100;
 const TWD_MACHINE_LEARNING =
   'https://towardsdatascience.com/machine-learning/home';
 const TWD_DATA_SCIENCE = 'https://towardsdatascience.com/data-science/home';
+const puppeteerOptions = {args: ['--no-sandbox', '--disable-setuid-sandbox']}
 
 const getHitsFromMedium = async ({ dateSince, baseUrl }) => {
   if (!baseUrl || !baseUrl) {
@@ -45,7 +46,7 @@ const getHitsFromMedium = async ({ dateSince, baseUrl }) => {
    *   }
    * }
    */
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch(puppeteerOptions);
   const page = await browser.newPage();
   await page.goto(`${baseUrl}?format=json`);
   const content = await R.composeP(
@@ -92,42 +93,52 @@ Const getHitsFromChannel = async ({ dateSince, srcChannel }) => {
 */
 
 const getMLMasteryHits = async ({ dateSince }) => {
-  const link = 'https://machinelearningmastery.com/blog/'
-  const browser = await puppeteer.launch({ headless: true });
+  const link = 'https://machinelearningmastery.com/blog/';
+  const browser = await puppeteer.launch(puppeteerOptions);
   const page = await browser.newPage();
   await page.goto(link);
-  const content = await page.evaluate(() => document.querySelector('#main').outerHTML)
-  const articles = $(content).find('> article')
-  return R.reduce((acc, article) => {
-    const createdAt = $(article).find('.published').attr('title')
-    const title = $(article).find('header > .title a').innerText
-    const url = $(article).find('header > .title a').attr('href')
-    if (moment(createdAt).isAfter(dateSince)) {
-      const result = {
-        title,
-        createdAt,
-        url
+  const content = await page.evaluate(
+    () => document.querySelector('#main').outerHTML,
+  );
+  const articles = $(content).find('> article');
+  return R.reduce(
+    (acc, article) => {
+      const createdAt = $(article)
+        .find('.published')
+        .attr('title');
+      const title = $(article).find('header > .title a').innerText;
+      const url = $(article)
+        .find('header > .title a')
+        .attr('href');
+      if (moment(createdAt).isAfter(dateSince)) {
+        const result = {
+          title,
+          createdAt,
+          url,
+        };
+        return R.append(result, acc);
       }
-      return R.append(result, acc)
-    }
-    return acc
-  }, [], articles)
-}
+      return acc;
+    },
+    [],
+    articles,
+  );
+};
 
-const constructNews = (news) => {
-  const date = moment().format('DD-MM-YYYY')
+const constructNews = news => {
+  const date = moment().format('DD-MM-YYYY');
   return R.compose(
     R.join('\n'),
-    R.append(`DeepCollege top articles of ${date}`),
+    R.prepend(`DeepCollege top articles of ${date}`),
     mapIndexed((val, index) => {
-      return `${index}. ${val.title} @ <${val.url}>`
-    })
-  )(news)
+      return `${index}. ${val.title} @ <${val.url}>`;
+    }),
+  )(news);
 };
 
 const handler = async ({ message }) => {
   moment.locale('en-AU');
-  const yesterday = moment().subtract(1, 'day')
+  const yesterday = moment().subtract(1, 'day');
 
   // Place to post news back
   const newsroomChannel = message.client.channels.find('name', 'newsroom');
@@ -140,15 +151,12 @@ const handler = async ({ message }) => {
     baseUrl: TWD_DATA_SCIENCE,
     dateSince: yesterday,
   });
-  const mlMasteryHits = await getMLMasteryHits({ dateSince: yesterday })
-  const collection = R.compose(
-    R.uniqBy(R.prop('url')),
-    R.flatten
-  )([
+  const mlMasteryHits = await getMLMasteryHits({ dateSince: yesterday });
+  const collection = R.compose(R.uniqBy(R.prop('url')), R.flatten)([
     twdDSHits,
     twdMLHits,
-    mlMasteryHits
-  ])
+    mlMasteryHits,
+  ]);
 
   await newsroomChannel.send(constructNews(collection));
 };

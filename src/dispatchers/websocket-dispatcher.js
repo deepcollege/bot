@@ -1,22 +1,13 @@
 // @flow
 import * as R from 'ramda';
-import Discord from 'discord.js';
 import config from '../config';
 
 /**
- * Discord Websocket dispatcher
+ *
  * @param queue
+ * @param client
  */
-const init = ({ queue }) => {
-  // Setup environment variables
-
-  const client = new Discord.Client();
-
-  client.on('ready', () => {
-    client.user.setAvatar(config.loadOperations().avatar);
-    console.log('I am ready!');
-  });
-
+const init = ({ queue, client }) => {
   const handleCondition = ({ condition, message }) => {
     const conditionName = R.head(Object.keys(condition));
     const value = R.prop(conditionName, condition);
@@ -81,8 +72,6 @@ const init = ({ queue }) => {
       }
     }, operations);
   });
-
-  client.login(process.env.DISCORD_PRIV_KEY);
 };
 
 export default {
