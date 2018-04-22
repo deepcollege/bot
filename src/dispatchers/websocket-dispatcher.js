@@ -13,6 +13,7 @@ const init = ({ queue }) => {
   const client = new Discord.Client();
 
   client.on('ready', () => {
+    client.user.setAvatar(config.loadOperations().avatar);
     console.log('I am ready!');
   });
 

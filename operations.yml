@@ -1,4 +1,5 @@
 version: 1
+avatar: https://i.imgur.com/h7nDLry.jpg
 operations:
   - name: help_webhook_trigger
     function: help.handler

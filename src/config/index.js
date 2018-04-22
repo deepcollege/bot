@@ -6,7 +6,6 @@ import YAML from 'yamljs';
 
 const loadOperations = (fileName = 'operations.yml') => {
   const yamlPath = path.join(__dirname, `/../../${fileName}`);
-  console.log(yamlPath);
   return YAML.load(yamlPath);
 };
 

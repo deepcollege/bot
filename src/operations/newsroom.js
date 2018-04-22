@@ -10,7 +10,9 @@
 import * as R from 'ramda';
 import moment from 'moment';
 import puppeteer from 'puppeteer';
+import $ from 'cheerio';
 import utils from './utils';
+const mapIndexed = R.addIndex(R.map);
 
 const MAX_MESSAGE_FETCH_CHANNEL = 100;
 const TWD_MACHINE_LEARNING =
@@ -67,7 +69,9 @@ const getHitsFromMedium = async ({ dateSince, baseUrl }) => {
   )(content);
 };
 
-const getHitsFromChannel = async ({ dateSince, srcChannel }) => {
+/*
+Muting this function for now
+Const getHitsFromChannel = async ({ dateSince, srcChannel }) => {
   return R.composeP(
     R.flatten,
     // Extract urls from contents
@@ -85,24 +89,49 @@ const getHitsFromChannel = async ({ dateSince, srcChannel }) => {
     channel => channel.fetchMessages({ limit: MAX_MESSAGE_FETCH_CHANNEL }),
   )(srcChannel);
 };
+*/
 
-// Const constructNews = () => {};
+const getMLMasteryHits = async ({ dateSince }) => {
+  const link = 'https://machinelearningmastery.com/blog/'
+  const browser = await puppeteer.launch({ headless: true });
+  const page = await browser.newPage();
+  await page.goto(link);
+  const content = await page.evaluate(() => document.querySelector('#main').outerHTML)
+  const articles = $(content).find('> article')
+  return R.reduce((acc, article) => {
+    const createdAt = $(article).find('.published').attr('title')
+    const title = $(article).find('header > .title a').innerText
+    const url = $(article).find('header > .title a').attr('href')
+    if (moment(createdAt).isAfter(dateSince)) {
+      const result = {
+        title,
+        createdAt,
+        url
+      }
+      return R.append(result, acc)
+    }
+    return acc
+  }, [], articles)
+}
+
+const constructNews = (news) => {
+  const date = moment().format('DD-MM-YYYY')
+  return R.compose(
+    R.join('\n'),
+    R.append(`DeepCollege top articles of ${date}`),
+    mapIndexed((val, index) => {
+      return `${index}. ${val.title} @ <${val.url}>`
+    })
+  )(news)
+};
 
 const handler = async ({ message }) => {
   moment.locale('en-AU');
-  const yesterday = moment()
-    .subtract(1, 'day')
-    .format('YYYY-MM-DD');
+  const yesterday = moment().subtract(1, 'day')
 
   // Place to post news back
   const newsroomChannel = message.client.channels.find('name', 'newsroom');
-  // Place to find news
-  const resourcesChannel = message.client.channels.find('name', 'resources');
 
-  const resourcesCollection = await getHitsFromChannel({
-    dateSince: yesterday,
-    srcChannel: resourcesChannel,
-  });
   const twdMLHits = await getHitsFromMedium({
     baseUrl: TWD_MACHINE_LEARNING,
     dateSince: yesterday,
@@ -111,12 +140,17 @@ const handler = async ({ message }) => {
     baseUrl: TWD_DATA_SCIENCE,
     dateSince: yesterday,
   });
-  const newsCollection = {
-    deepLearning: twdMLHits,
-    dataScience: twdDSHits,
-    resources: resourcesCollection,
-  };
-  await newsroomChannel.send(JSON.stringify(newsCollection));
+  const mlMasteryHits = await getMLMasteryHits({ dateSince: yesterday })
+  const collection = R.compose(
+    R.uniqBy(R.prop('url')),
+    R.flatten
+  )([
+    twdDSHits,
+    twdMLHits,
+    mlMasteryHits
+  ])
+
+  await newsroomChannel.send(constructNews(collection));
 };
 
 export default {
