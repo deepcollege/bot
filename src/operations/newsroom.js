@@ -14,7 +14,6 @@ import $ from 'cheerio';
 import utils from './utils';
 const mapIndexed = R.addIndex(R.map);
 
-const MAX_MESSAGE_FETCH_CHANNEL = 100;
 const TWD_MACHINE_LEARNING =
   'https://towardsdatascience.com/machine-learning/home';
 const TWD_DATA_SCIENCE = 'https://towardsdatascience.com/data-science/home';
@@ -136,12 +135,12 @@ const constructNews = news => {
   )(news);
 };
 
-const handler = async ({ message }) => {
+const handler = async ({ client }) => {
   moment.locale('en-AU');
   const yesterday = moment().subtract(1, 'day');
 
   // Place to post news back
-  const newsroomChannel = message.client.channels.find('name', 'newsroom');
+  let newsroomChannel = client.channels.find('name', 'newsroom');
 
   const twdMLHits = await getHitsFromMedium({
     baseUrl: TWD_MACHINE_LEARNING,

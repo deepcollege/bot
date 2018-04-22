@@ -8,11 +8,11 @@ operations:
       - contentEquals: "!help"
     inputs: ["message"]
 
-  - name: help_webhook_cron
-    function: cron-test.handler
-    type: cron
-    time: "* * * * *"
-    inputs: ["client"]
+  # - name: help_webhook_cron
+  #  function: cron-test.handler
+  #  type: cron
+  #  time: "* * * * *"
+  #  inputs: ["client"]
 
   - name: get_year_progress_on_trigger
     function: progress.handler
@@ -23,7 +23,6 @@ operations:
 
   - name: newsroom
     function: newsroom.handler
-    type: websocket
-    conditions:
-      - contentEquals: "!news"
-    inputs: ["message"]
+    type: cron
+    time: "0 8 * * *"
+    inputs: ["client"]
