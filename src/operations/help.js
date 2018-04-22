@@ -1,6 +1,6 @@
 // @flow
 const handler = async ({ message }) => {
-  message.channel.send('fuck you');
+  console.log('help!');
   Promise.resolve();
 };
 
