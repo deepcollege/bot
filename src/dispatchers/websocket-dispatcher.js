@@ -1,5 +1,6 @@
 // @flow
 import * as R from 'ramda';
+import utils from './dispatcher-utils';
 import config from '../config';
 
 /**
@@ -16,34 +17,6 @@ const init = ({ queue, client }) => {
       return R.equals(value, message.content);
     }
   };
-
-  const constructPayload = ({ inputs, message, client }) => {
-    const _startObject = {};
-    return R.reduce(
-      (acc, input) => {
-        if (input === 'message') {
-          const xLens = R.lensProp('message');
-          return R.set(xLens, message, acc);
-        } else if (input === 'client') {
-          const xLens = R.lensProp('client');
-          return R.set(xLens, client, acc);
-        } else {
-          // If input type is not detected, it will skip
-          console.warn(`Skipping payload construction for input ${input}`);
-          return acc;
-        }
-      },
-      _startObject,
-      inputs,
-    );
-  };
-
-  const constructEvent = ({ func, payload }) => {
-    // TODO: Should we check "fileName.method" pattern?
-    const [action, handler] = R.split('.', func);
-    return { action, handler, payload };
-  };
-
   client.on('message', message => {
     const operations = config.queryOperations({ type: 'websocket' });
     // Loops all websocket type operations
@@ -55,12 +28,11 @@ const init = ({ queue, client }) => {
         condition => handleCondition({ condition, message }),
         conditions,
       );
-
       // TODO: At the moment it's only doing AND; we must handle OR and AND conditions
       if (R.all(R.equals(true), results)) {
-        const event = constructEvent({
+        const event = utils.constructEvent({
           func: op.function,
-          payload: constructPayload({
+          payload: utils.constructPayload({
             inputs,
             message,
             client,

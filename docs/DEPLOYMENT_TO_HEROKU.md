@@ -25,6 +25,11 @@ $ heroku create <app_name, globally unique>
 $ git remote -v    # check a remote is created
 ```
 
+We also need to make sure apps are using the correct timezone
+```bash
+$ heroku config:add TZ="Australia/Sydney"
+```
+
 If you want to base your Heroku app based on a buildpack
 
 ```bash

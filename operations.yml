@@ -7,12 +7,20 @@ operations:
     conditions:
       - contentEquals: "!help"
     inputs: ["message"]
+
+  - name: help_webhook_cron
+    function: cron-test.handler
+    type: cron
+    time: "* * * * *"
+    inputs: ["client"]
+
   - name: get_year_progress_on_trigger
     function: progress.handler
     type: websocket
     conditions:
       - contentEquals: "!progress"
     inputs: ["message"]
+
   - name: newsroom
     function: newsroom.handler
     type: websocket
