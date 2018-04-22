@@ -55,6 +55,8 @@ Once it's done, you can now deploy `friendlybot`
 $ git push <heroku_remote> master
 ```
 
+How to deploy a worker dyno: https://stackoverflow.com/questions/38343299/deploy-only-worker-dyno-to-heroku-for-firebase-queue 
+
 Check app status (e.g. logs)
 
 ```bash
