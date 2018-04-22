@@ -40,3 +40,6 @@ Thumbs.db
 
 # sqlite
 *.sqlite
+
+# package lock
+package.lock.json
