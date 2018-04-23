@@ -14,7 +14,10 @@ const TWD_VISUALISATION =
   'https://towardsdatascience.com/data-visualization/home';
 const APPLIED_DS =
   'https://medium.com/applied-data-science/tagged/data-science';
-const puppeteerOptions = { args: ['--no-sandbox', '--disable-setuid-sandbox'] };
+const puppeteerOptions = {
+  headless: true,
+  args: ['--no-sandbox', '--disable-setuid-sandbox']
+};
 
 const getHitsFromMedium = async ({ dateSince, baseUrl }) => {
   if (!baseUrl || !baseUrl) {
