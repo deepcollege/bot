@@ -1,23 +1,20 @@
 // @flow
-/**
- * Notes: Each news object should be
- * {
- *   title
- *   createdAt
- *   url
- * }
- */
 import * as R from 'ramda';
 import moment from 'moment';
 import puppeteer from 'puppeteer';
 import $ from 'cheerio';
-import utils from './utils';
+
 const mapIndexed = R.addIndex(R.map);
 
 const TWD_MACHINE_LEARNING =
   'https://towardsdatascience.com/machine-learning/home';
 const TWD_DATA_SCIENCE = 'https://towardsdatascience.com/data-science/home';
-const puppeteerOptions = {args: ['--no-sandbox', '--disable-setuid-sandbox']}
+const TWD_PROGRAMMING = 'https://towardsdatascience.com/programming/home';
+const TWD_VISUALISATION =
+  'https://towardsdatascience.com/data-visualization/home';
+const APPLIED_DS =
+  'https://medium.com/applied-data-science/tagged/data-science';
+const puppeteerOptions = { args: ['--no-sandbox', '--disable-setuid-sandbox'] };
 
 const getHitsFromMedium = async ({ dateSince, baseUrl }) => {
   if (!baseUrl || !baseUrl) {
@@ -130,8 +127,13 @@ const constructNews = news => {
     R.join('\n'),
     R.prepend(`DeepCollege top articles of ${date}`),
     mapIndexed((val, index) => {
-      return `${index}. ${val.title} @ <${val.url}>`;
+      const title = val.title ? val.title : '';
+      const url = val.url ? val.url : '';
+      console.log('checking title ', title);
+      console.log(url);
+      return `${index}. ${title} @ <${url}>`;
     }),
+    R.filter(val => val.url),
   )(news);
 };
 
@@ -140,7 +142,7 @@ const handler = async ({ client }) => {
   const yesterday = moment().subtract(1, 'day');
 
   // Place to post news back
-  let newsroomChannel = client.channels.find('name', 'newsroom');
+  const newsroomChannel = client.channels.find('name', 'newsroom');
 
   const twdMLHits = await getHitsFromMedium({
     baseUrl: TWD_MACHINE_LEARNING,
@@ -150,10 +152,27 @@ const handler = async ({ client }) => {
     baseUrl: TWD_DATA_SCIENCE,
     dateSince: yesterday,
   });
+  const twdProgHits = await getHitsFromMedium({
+    baseUrl: TWD_PROGRAMMING,
+    dateSince: yesterday,
+  });
+  const twdVisualHits = await getHitsFromMedium({
+    baseUrl: TWD_VISUALISATION,
+    dateSince: yesterday,
+  });
+  const appliedDsHits = await getHitsFromMedium({
+    baseUrl: APPLIED_DS,
+    dateSince: yesterday,
+  });
+
   const mlMasteryHits = await getMLMasteryHits({ dateSince: yesterday });
+
   const collection = R.compose(R.uniqBy(R.prop('url')), R.flatten)([
     twdDSHits,
     twdMLHits,
+    twdProgHits,
+    twdVisualHits,
+    appliedDsHits,
     mlMasteryHits,
   ]);
 

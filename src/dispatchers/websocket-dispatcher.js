@@ -1,7 +1,7 @@
 // @flow
 import * as R from 'ramda';
-import utils from './dispatcher-utils';
 import config from '../config';
+import utils from './dispatcher-utils';
 
 /**
  *

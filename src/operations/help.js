@@ -1,5 +1,5 @@
 // @flow
-const handler = async ({ message }) => {
+const handler = async () => {
   console.log('help!');
   Promise.resolve();
 };

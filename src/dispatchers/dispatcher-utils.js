@@ -1,7 +1,6 @@
 // @flow
 import * as R from 'ramda';
 
-
 const constructEvent = ({ func, payload }) => {
   // TODO: Should we check "fileName.method" pattern?
   const [action, handler] = R.split('.', func);
@@ -31,5 +30,5 @@ const constructPayload = ({ inputs = [], message, client }) => {
 
 export default {
   constructEvent,
-  constructPayload
-}
+  constructPayload,
+};

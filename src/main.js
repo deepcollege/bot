@@ -16,7 +16,7 @@ const queue = pubsub.createPubsub(subscriber.subscribe);
 const client = new Discord.Client();
 
 client.on('ready', () => {
-  const newAvatarURL = config.loadOperations().avatar
+  const newAvatarURL = config.loadOperations().avatar;
   if (client.user.avatarURL !== newAvatarURL) {
     client.user.setAvatar(newAvatarURL);
   }
@@ -29,4 +29,3 @@ websocketDispatcher.init({ queue, client });
 
 // Auth
 client.login(process.env.DISCORD_PRIV_KEY);
-
