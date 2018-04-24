@@ -13,6 +13,9 @@ const TWD_DATA_SCIENCE = 'https://towardsdatascience.com/data-science/home';
 const TWD_PROGRAMMING = 'https://towardsdatascience.com/programming/home';
 const TWD_VISUALISATION =
   'https://towardsdatascience.com/data-visualization/home';
+const TENSORFLOW_MEDIUM = 'https://medium.com/tensorflow';
+const INTUITION_MACHINE = 'https://medium.com/intuitionmachine';
+const BECOMING_HUMAN = 'https://becominghuman.ai/';
 const APPLIED_DS =
   'https://medium.com/applied-data-science/tagged/data-science';
 
@@ -126,12 +129,16 @@ const constructNews = news => {
   const date = moment().format('DD-MM-YYYY');
   return R.compose(
     R.join('\n'),
-    R.prepend(`DeepCollege top articles of ${date}`),
+    R.prepend(`**DeepCollege top articles of ${date}**\n`),
+    (news) => {
+      if (R.length(news) === 0) {
+        return ['Found no latest news!'];
+      }
+      return news;
+    },
     mapIndexed((val, index) => {
       const title = val.title ? val.title : '';
       const url = val.url ? val.url : '';
-      console.log('checking title ', title);
-      console.log(url);
       return `${index}. ${title} @ <${url}>`;
     }),
     R.filter(val => val.url),
@@ -147,5 +154,8 @@ export default {
   TWD_DATA_SCIENCE,
   TWD_PROGRAMMING,
   TWD_VISUALISATION,
+  TENSORFLOW_MEDIUM,
+  BECOMING_HUMAN,
+  INTUITION_MACHINE,
   APPLIED_DS,
 };

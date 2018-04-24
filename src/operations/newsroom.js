@@ -1,7 +1,7 @@
 // @flow
 import * as R from 'ramda';
 import moment from 'moment';
-import newroomUtils from './newsroom-utils';
+import newsroomUtils from './newsroom-utils';
 
 const handler = async ({ client }) => {
   moment.locale('en-AU');
@@ -10,28 +10,40 @@ const handler = async ({ client }) => {
   // Place to post news back
   const newsroomChannel = client.channels.find('name', 'newsroom');
 
-  const twdMLHits = await newroomUtils.getHitsFromMedium({
-    baseUrl: newroomUtils.TWD_MACHINE_LEARNING,
+  const twdMLHits = await newsroomUtils.getHitsFromMedium({
+    baseUrl: newsroomUtils.TWD_MACHINE_LEARNING,
     dateSince: yesterday,
   });
-  const twdDSHits = await newroomUtils.getHitsFromMedium({
-    baseUrl: newroomUtils.TWD_DATA_SCIENCE,
+  const twdDSHits = await newsroomUtils.getHitsFromMedium({
+    baseUrl: newsroomUtils.TWD_DATA_SCIENCE,
     dateSince: yesterday,
   });
-  const twdProgHits = await newroomUtils.getHitsFromMedium({
-    baseUrl: newroomUtils.TWD_PROGRAMMING,
+  const twdProgHits = await newsroomUtils.getHitsFromMedium({
+    baseUrl: newsroomUtils.TWD_PROGRAMMING,
     dateSince: yesterday,
   });
-  const twdVisualHits = await newroomUtils.getHitsFromMedium({
-    baseUrl: newroomUtils.TWD_VISUALISATION,
+  const twdVisualHits = await newsroomUtils.getHitsFromMedium({
+    baseUrl: newsroomUtils.TWD_VISUALISATION,
     dateSince: yesterday,
   });
-  const appliedDsHits = await newroomUtils.getHitsFromMedium({
-    baseUrl: newroomUtils.APPLIED_DS,
+  const tensorflow = await newsroomUtils.getHitsFromMedium({
+    baseUrl: newsroomUtils.TENSORFLOW_MEDIUM,
+    dateSince: yesterday,
+  });
+  const intuitionMachine = await newsroomUtils.getHitsFromMedium({
+    baseUrl: newsroomUtils.INTUITION_MACHINE,
     dateSince: yesterday,
   });
 
-  const mlMasteryHits = await newroomUtils.getMLMasteryHits({
+  const appliedDsHits = await newsroomUtils.getHitsFromMedium({
+    baseUrl: newsroomUtils.APPLIED_DS,
+    dateSince: yesterday,
+  });
+  const becomingHumanHits = await newsroomUtils.getHitsFromMedium({
+    baseUrl: newsroomUtils.BECOMING_HUMAN,
+    dateSince: yesterday,
+  });
+  const mlMasteryHits = await newsroomUtils.getMLMasteryHits({
     dateSince: yesterday,
   });
 
@@ -41,10 +53,13 @@ const handler = async ({ client }) => {
     twdProgHits,
     twdVisualHits,
     appliedDsHits,
+    tensorflow,
+    intuitionMachine,
+    becomingHumanHits,
     mlMasteryHits,
   ]);
 
-  await newsroomChannel.send(newroomUtils.constructNews(collection));
+  await newsroomChannel.send(newsroomUtils.constructNews(collection));
 };
 
 export default {
