@@ -1,12 +1,12 @@
 version: 1
 avatar: https://i.imgur.com/h7nDLry.jpg
 operations:
-  # - name: help_webhook_trigger
-  #  function: help.handler
-  #  type: websocket
-  #  conditions:
-  #    - contentEquals: "!help"
-  #  inputs: ["message"]
+  - name: help_webhook_trigger
+    function: help.handler
+    type: websocket
+    conditions:
+      - contentEquals: "!help"
+    inputs: ["message"]
 
   # - name: help_webhook_cron
   #  function: cron-test.handler
