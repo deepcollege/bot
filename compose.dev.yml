@@ -7,7 +7,7 @@ services:
     command: ["yarn", "dev"]
     build:
       context: .
-      dockerfile: .docker/Dockerfile
+      dockerfile: Dockerfile
     volumes:
       - .:/home/node/app
       - /home/node/app/node_modules

@@ -36,6 +36,9 @@ If you want to base your Heroku app based on a buildpack
 $ heroku create deepcollege-bot-staging --buildpack <github url | shorthand official image>
 ```
 
+(Recommeded) container push approach
+
+https://devcenter.heroku.com/articles/container-registry-and-runtime#logging-in-to-the-registry
 
 Set environment variables; easiest way is to set it via 
 Heroku dashboard. 

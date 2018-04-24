@@ -6,7 +6,7 @@ before_install:
   - docker --version
 
 install:
-  - docker build -t friendlybot:latest -f .docker/Dockerfile .
+  - docker build -t friendlybot:latest .
 
 script:
   - docker run -v $(pwd):/home/node/app -v /home/node/app/node_modules friendlybot:latest yarn lint

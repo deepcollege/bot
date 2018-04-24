@@ -1,4 +1,4 @@
-FROM node:8-slim
+FROM node:9.3
 
 # See https://crbug.com/795759
 RUN apt-get update && apt-get install -yq libgconf-2-4
@@ -45,6 +45,9 @@ ENV CORE /home/node/app
 RUN mkdir $CORE
 RUN echo $CORE
 WORKDIR $CORE
+
+# Production code requirements
+ADD . $CORE
 
 # Install baseline cache
 COPY ./package.json ./yarn.lock /tmp/

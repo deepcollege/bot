@@ -130,7 +130,7 @@ const constructNews = news => {
   return R.compose(
     R.join('\n'),
     R.prepend(`**DeepCollege top articles of ${date}**\n`),
-    (news) => {
+    news => {
       if (R.length(news) === 0) {
         return ['Found no latest news!'];
       }
