@@ -15,10 +15,6 @@ const TWD_VISUALISATION =
   'https://towardsdatascience.com/data-visualization/home';
 const APPLIED_DS =
   'https://medium.com/applied-data-science/tagged/data-science';
-const puppeteerOptions = {
-  headless: true,
-  args: ['--no-sandbox', '--disable-setuid-sandbox'],
-};
 
 const getHitsFromMedium = async ({ dateSince, baseUrl }) => {
   if (!baseUrl || !baseUrl) {
@@ -46,7 +42,9 @@ const getHitsFromMedium = async ({ dateSince, baseUrl }) => {
    *   }
    * }
    */
-  const browser = await puppeteer.launch(puppeteerOptions);
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
   const page = await browser.newPage();
   await page.goto(`${baseUrl}?format=json`);
   const content = await R.composeP(
@@ -91,7 +89,9 @@ const getHitsFromChannel = async ({ dateSince, srcChannel }) => {
 
 const getMLMasteryHits = async ({ dateSince }) => {
   const link = 'https://machinelearningmastery.com/blog/';
-  const browser = await puppeteer.launch(puppeteerOptions);
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
   const page = await browser.newPage();
   await page.goto(link);
   const content = await page.evaluate(
