@@ -36,9 +36,10 @@ If you want to base your Heroku app based on a buildpack
 $ heroku create deepcollege-bot-staging --buildpack <github url | shorthand official image>
 ```
 
-(Recommeded) container push approach
+##### Note
 
-https://devcenter.heroku.com/articles/container-registry-and-runtime#logging-in-to-the-registry
+Chromium issue: https://github.com/jontewks/puppeteer-heroku-buildpack/issues/13
+> May need to change buildpack order 1. Node -> 2. puppeteer
 
 Set environment variables; easiest way is to set it via 
 Heroku dashboard. 
