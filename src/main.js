@@ -6,7 +6,7 @@ import subscriber from './subscriber/subscriber';
 import cronDispatcher from './dispatchers/cron-dispatcher';
 import websocketDispatcher from './dispatchers/websocket-dispatcher';
 
-// Setup environment variables from .env
+// Setup environment variables from .env 
 config.setup();
 
 // Create a pubsub client
