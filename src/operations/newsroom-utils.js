@@ -1,6 +1,6 @@
 import * as R from 'ramda';
 import moment from 'moment';
-import puppeteer from 'puppeteer';
+import axios from 'axios';
 import $ from 'cheerio';
 import utils from './utils';
 
@@ -45,15 +45,11 @@ const getHitsFromMedium = async ({ dateSince, baseUrl }) => {
    *   }
    * }
    */
-  const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  });
-  const page = await browser.newPage();
-  await page.goto(`${baseUrl}?format=json`);
   const content = await R.composeP(
     x => JSON.parse(x),
     x => R.replace(/^]\)}while\(1\);<\/x>/g, '', x),
-    () => page.evaluate(() => document.querySelector('body > pre').textContent),
+    x => x.data,
+    () => axios.get(`${baseUrl}?format=json`),
   )();
   const postLens = R.lensPath(['payload', 'references', 'Post']);
   return R.compose(
@@ -92,15 +88,9 @@ const getHitsFromChannel = async ({ dateSince, srcChannel }) => {
 
 const getMLMasteryHits = async ({ dateSince }) => {
   const link = 'https://machinelearningmastery.com/blog/';
-  const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  });
-  const page = await browser.newPage();
-  await page.goto(link);
-  const content = await page.evaluate(
-    () => document.querySelector('#main').outerHTML,
-  );
-  const articles = $(content).find('> article');
+  const content = R.composeP(x => x.data, x => axios.get(x))(link);
+
+  const articles = $(content).find('#main > article');
   return R.reduce(
     (acc, article) => {
       const createdAt = $(article)

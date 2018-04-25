@@ -37,7 +37,7 @@ $ heroku create deepcollege-bot-staging --buildpack <github url | shorthand offi
 ```
 
 ##### Note
-
+If you are going to use Puppeteer
 Chromium issue: https://github.com/jontewks/puppeteer-heroku-buildpack/issues/13
 > May need to change buildpack order 1. Node -> 2. puppeteer
 
