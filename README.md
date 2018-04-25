@@ -116,3 +116,18 @@ understanding about friendlybot architecture
 - `DEPLOYMENT_TO_HEROKU.md` can be used to deploy the bot on to Heroku
 at the moment we intend to use Heroku for production bot only
 
+
+### Backlogs
+
+#### 1. News
+
+<strike>1. Newsroom cron</strike>
+2. Ask news aka search
+3. On demand news (Direct message)
+
+
+#### 2. Chatbot
+
+1. Question bot
+2. Translation
+
